@@ -7,12 +7,12 @@ requirejs.config({
 	},
 	packages : [{
 		name : 'css',
-		location: 'components/require-css',
+		location: 'bower_components/require-css',
 		main : 'css'
 	},
 	{
 		name : 'less',
-		location: 'components/require-less',
+		location: 'bower_components/require-less',
 		main : 'less'
 	}]
 });

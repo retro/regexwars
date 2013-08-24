@@ -47,8 +47,8 @@ define(['can/util/string', 'can/model', 'can/construct/super'], function(can){
 		isDestroyed : function(){
 			return this.attr('word') === this.attr('winningState');
 		},
-		shoot : function(r){
-			var regex = new RegExp(r, 'gi');
+		shoot : function(bullet){
+			var regex = new RegExp(bullet.regex, 'gi');
 			this.attr('word', this.attr('word').replace(regex, ' '));
 			if(this.isDestroyed()){
 				this.destroy();
@@ -58,6 +58,7 @@ define(['can/util/string', 'can/model', 'can/construct/super'], function(can){
 			var length = this.attr('cleanWord').length,
 				damage = 1,
 				coefficient, aliveKillers;
+			return 0.5;
 		}
 	});
 
