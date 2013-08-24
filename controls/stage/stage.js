@@ -62,7 +62,9 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 		"#area click" : function(){
 			var leftPos = this.bulletOrigin.x,
 				angle   = this.angle(),
-				destination = this.$trajectory[0].getBoundingClientRect();
+				trajectory = this.$trajectory[0].getBoundingClientRect(),
+				destinationTop = trajectory.top,
+				destinationLeft = trajectory.left,
 				boundingRect;
 
 			if(angle > 0){
@@ -70,14 +72,19 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				leftPos = boundingRect.right - this.offset.left;
 			}
 
-			
+			if(angle > 0){
+				destinationLeft += trajectory.width;
+			}
+
+			leftPos -= 8;
 
 			this.bullets.push(new BulletModel({
 				regex : 'foo',
 				top   : this.bulletOrigin.y,
 				left  : leftPos,
-				destinationTop : destination.top,
-				destinationLeft : destination.left
+				destinationTop : destinationTop - this.offset.top,
+				destinationLeft : destinationLeft - this.offset.left,
+				angle : angle
 			}))
 		},
 		"webkitTransitionEnd" : "removeBullet",
