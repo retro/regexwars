@@ -1,10 +1,16 @@
+@import "../../bower_components/lesshat/lesshat.less";
+body {
+	background: #0f0f0f;
+}
 #area { 
 	position: absolute;
 	background: cyan;
-	width: 500px;
+	width: 800px;
 	height: 500px;
-	top: 0;
-	left: 0;
+	top: 50%;
+	left: 50%;
+	margin-left: -400px;
+	margin-top: -250px;
 	overflow: hidden;
 }
 #gun {
@@ -20,4 +26,37 @@
 .bullet {
 	background: red;
 	position: absolute;
+}
+.gradient {
+	width: 1400px;
+	height: 150px;
+	.border-radius(100%);
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -700px;
+}
+.gradient-1 {
+	margin-top: -50px;
+	background: #081146;
+}
+.gradient-2 {
+	margin-top: 50px;
+	background: #00113d;
+}
+.gradient-3 {
+	margin-top: 150px;
+	background: #001134;
+}
+.gradient-4 {
+	margin-top: 250px;
+	background: #00112b;
+}
+.gradient-5 {
+	margin-top: 350px;
+	background: #000823;
+}
+.gradient-6 {
+	margin-top: 450px;
+	background: #000618;
 }

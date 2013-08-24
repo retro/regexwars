@@ -63,7 +63,7 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 
 			if(angle > 0){
 				boundingRect = this.$gun[0].getBoundingClientRect();
-				leftPos = boundingRect.right;
+				leftPos = boundingRect.right - this.offset.left;
 			}
 
 			this.bullets.push(new BulletModel({
@@ -73,6 +73,13 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				angle : angle,
 				maxX  : this.areaWidth()
 			}))
+		},
+		"webkitTransitionEnd" : "removeBullet",
+		"oTransitionEnd"      : "removeBullet",
+		"transitionend"       : "removeBullet",
+		"msTransitionEnd"     : "removeBullet",
+		removeBullet : function(el, ev){
+			el.data('model').destroy();
 		}
 	});
 

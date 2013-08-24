@@ -10,7 +10,11 @@ define(['can/util/string', 'can/model', 'can/construct/proxy'], function(can){
 
 	}, {
 		move : function(){
-			
+
+		},
+		bulletAngle : function(){
+			var angle = this.attr('angle');
+			return angle > 0 ? angle - 90 : angle + 90;
 		}
 	});
 

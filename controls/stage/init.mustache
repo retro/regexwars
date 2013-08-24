@@ -1,6 +1,15 @@
 <div id="area">
+	<div id="sky">
+		<div class="gradient gradient-1"></div>
+		<div class="gradient gradient-2"></div>
+		<div class="gradient gradient-3"></div>
+		<div class="gradient gradient-4"></div>
+		<div class="gradient gradient-5"></div>
+		<div class="gradient gradient-6"></div>
+	</div>
 	{{#each bullets}}
-		<div class="bullet" style="top: {{top}}px; left: {{left}}px">{{ regex }}</div>
+		<div class="bullet" style="top: {{top}}px; left: {{left}}px; -webkit-transform:rotate({{bulletAngle}}deg)" {{data 'model'}}>{{ regex }}</div>
 	{{/each}}
 	<div id="gun" style="-webkit-transform:rotate({{angle}}deg);"></div>
+
 </div>
