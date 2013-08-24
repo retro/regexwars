@@ -74,7 +74,8 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				top   : this.bulletOrigin.y,
 				left  : leftPos,
 				angle : angle,
-				maxX  : this.areaWidth()
+				maxX  : this.areaWidth(),
+        maxY  : this.areaHeight()
 			}))
 		},
 		"webkitTransitionEnd" : "removeBullet",

@@ -8,7 +8,7 @@
 		<div class="gradient gradient-6"></div>
 	</div>
 	{{#each bullets}}
-		<div class="bullet" style="top: {{top}}px; left: {{left}}px; -webkit-transform:rotate({{bulletAngle}}deg)" {{data 'model'}}>{{ regex }}</div>
+		<div class="bullet" style="top: {{top}}px; left: {{left}}px; -webkit-transform:rotate({{bulletAngle}}deg); -webkit-transition: all {{animationTime}}s linear;" {{data 'model'}}>{{ regex }}</div>
 	{{/each}}
 	<div id="gun" style="-webkit-transform:rotate({{angle}}deg);"></div>
 

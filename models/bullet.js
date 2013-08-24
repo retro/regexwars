@@ -9,10 +9,28 @@ define(['can/util/string', 'can/model', 'can/construct/proxy'], function(can){
 		destroy : 'DELETE /bullets/{id}'
 
 	}, {
-		move : function(){
+		init: function() {
+			//izracun
 
+			window.setTimeout(this.proxy('calculateTrajectory'), 0);
 		},
-		bulletAngle : function(){
+
+		calculateTrajectory: function() {
+			// debugger
+			var deltaHeight = 50;
+			//stage height + delta height
+			var finalTop = this.attr('maxY') + deltaHeight;
+			// pixels per animation frame
+			var bulletSpeed = 200;
+			var trajectoryLength = Math.abs(finalTop/Math.cos(this.attr('angle')));
+			var buletTravelTime = trajectoryLength/bulletSpeed;
+			var finalLeft = Math.sqrt(Math.pow(trajectoryLength,2)-Math.pow(finalTop,2));
+			this.attr('animationTime', buletTravelTime);
+			this.attr('top',  - deltaHeight);
+			this.attr('left', this.attr('angle') > 0 ? finalLeft : -finalLeft);
+		},
+
+ 		bulletAngle : function(){
 			var angle = this.attr('angle');
 			return angle > 0 ? angle - 90 : angle + 90;
 		}
