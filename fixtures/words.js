@@ -4,6 +4,7 @@ define(['can/util/string', 'can/util/fixture'], function(can){
 
 
   var store = can.fixture.store(words.length - 1, function(i){
+
     var id = i + 1; // Make ids 1 based instead of 0 based
     return {
       id   : id,
