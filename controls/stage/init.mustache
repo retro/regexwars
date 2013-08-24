@@ -1,3 +1,6 @@
 <div id="area">
+	{{#each bullets}}
+		<div class="bullet" style="top: {{top}}px; left: {{left}}px">{{ regex }}</div>
+	{{/each}}
 	<div id="gun" style="-webkit-transform:rotate({{angle}}deg);"></div>
 </div>
