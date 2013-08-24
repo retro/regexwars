@@ -1,9 +1,4 @@
-requirejs(['can/util/string', 'can/control'], function(can){
-  var App = can.Control({
-    init : function(){
-      this.element.html('Hello World!');
-    }
-  })
-
-  new App('#content');
+requirejs(['controls/stage/stage', 'mustache!init'], function(StageControl, initView){
+	$('#content').html(initView());
+	new StageControl('#stage')
 });
