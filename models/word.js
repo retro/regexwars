@@ -44,7 +44,7 @@ define(['can/util/string', 'can/model', 'can/construct/super', 'fixtures/words']
 			data.originalWord  = data.word;
 			data.killerIndices = getKillerIndices(data.word);
 			data.cleanWord     = data.word.replace(/\[|\]/gi, '');
-			data.preparedWord  = data.word.replace(/\]/gi, '<b>').replace(/\[/gi, '</b>');
+			data.preparedWord  = data.word.replace(/\[/gi, '<b>').replace(/\]/gi, '</b>');
 			return this._super.apply(this, arguments);
 		}
 	}, {
@@ -57,6 +57,7 @@ define(['can/util/string', 'can/model', 'can/construct/super', 'fixtures/words']
 			if(this.isDestroyed()){
 				this.destroy();
 			}
+			bullet.destroy();
 		},
 		damage : function(){
 			var length = this.attr('cleanWord').length,
