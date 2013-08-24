@@ -43,8 +43,11 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 
 			this.areaWidth(this.$area.width());
 			this.areaHeight(this.$area.height());
-			
-			window.requestAnimationFrame(this.bullets.proxy('move'));
+      var loopAnim = function() {
+        self.bullets.move();
+        window.requestAnimationFrame(loopAnim);
+      }
+			window.requestAnimationFrame(loopAnim);
 		},
 		"#area mousemove" : function(el, ev){
 			var position = this.$gun.position()
