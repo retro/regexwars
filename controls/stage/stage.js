@@ -70,7 +70,8 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				regex : 'foo',
 				top   : this.bulletOrigin.y,
 				left  : leftPos,
-				angle : angle
+				angle : angle,
+				maxX  : this.areaWidth()
 			}))
 		}
 	});
