@@ -4,6 +4,8 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'models/word', 'm
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 
+
+
 	return can.Control({
 		defaults : {
 
@@ -149,6 +151,7 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'models/word', 'm
 		'{currentPlayer} dead' : function(){
 			clearTimeout(this._addWordTimeout);
 		}
+
 	});
 
 })

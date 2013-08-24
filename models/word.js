@@ -44,19 +44,20 @@ define(['can/util/string', 'can/model', 'can/construct/super', 'fixtures/words']
 			data.originalWord  = data.word;
 			data.killerIndices = getKillerIndices(data.word);
 			data.cleanWord     = data.word.replace(/\[|\]/gi, '');
-			data.preparedWord  = data.word.replace(/\]/gi, '<b>').replace(/\[/gi, '</b>');
+			data.preparedWord  = data.word.replace(/\[/gi, '<b>').replace(/\]/gi, '</b>');
 			return this._super.apply(this, arguments);
 		}
 	}, {
 		isDestroyed : function(){
 			return this.attr('word') === this.attr('winningState');
 		},
-		shoot : function(bullet){
+		shot : function(bullet){
 			var regex = new RegExp(bullet.regex, 'gi');
 			this.attr('word', this.attr('word').replace(regex, ' '));
 			if(this.isDestroyed()){
 				this.destroy();
 			}
+			bullet.destroy();
 		},
 		damage : function(){
 			var length = this.attr('cleanWord').length,
