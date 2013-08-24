@@ -44,10 +44,6 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 
 			this.areaWidth(this.$area.width());
 			this.areaHeight(this.$area.height());
-			var loopAnim = function() {
-				self.bullets.move();
-				window.requestAnimationFrame(loopAnim);
-			}
 		},
 		"#area mousemove" : function(el, ev){
 			var position = this.$gun.position()
@@ -87,10 +83,10 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				angle : angle
 			}))
 		},
-		"webkitTransitionEnd" : "removeBullet",
-		"oTransitionEnd"      : "removeBullet",
-		"transitionend"       : "removeBullet",
-		"msTransitionEnd"     : "removeBullet",
+		".bullet webkitTransitionEnd" : "removeBullet",
+		".bullet oTransitionEnd"      : "removeBullet",
+		".bullet transitionend"       : "removeBullet",
+		".bullet msTransitionEnd"     : "removeBullet",
 		removeBullet : function(el, ev){
 			el.data('model').destroy();
 		}

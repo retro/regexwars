@@ -25,7 +25,7 @@ define(['can/util/string', 'can/model', 'can/construct/proxy'], function(can){
 			var trajectoryLength = Math.abs(finalTop/Math.cos(this.attr('angle')));
 			var buletTravelTime = trajectoryLength/bulletSpeed;
 			var finalLeft = Math.sqrt(Math.pow(trajectoryLength,2)-Math.pow(finalTop,2));*/
-			this.attr('animationTime', '2');
+			this.attr('animationTime', '1');
 			this.attr('top',  this.destinationTop);
 			this.attr('left', this.destinationLeft);
 		},
@@ -37,11 +37,7 @@ define(['can/util/string', 'can/model', 'can/construct/proxy'], function(can){
 	});
 
 	Model.List = can.Model.List({
-		move : function(){
-			this.map(function(b){
-				b.move();
-			})
-		}
+		
 	})
 
 	return Model;
