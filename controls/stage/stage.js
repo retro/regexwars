@@ -75,6 +75,13 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'models/word', 'm
 				self.words.replace(data);
 				self.addWord();
 			});
+
+			var animLoop = function animLoop() {
+				self.detectCollision();
+				window.requestAnimationFrame(animLoop);
+			}
+
+			window.requestAnimationFrame(animLoop);
 		},
 		"#area mousemove" : function(el, ev){
 			var position = this.$gun.position()
@@ -106,7 +113,7 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'models/word', 'm
 			leftPos -= 8;
 
 			this.bullets.push(new BulletModel({
-				regex : 'foo',
+				regex : '.*',
 				top   : this.bulletOrigin.y,
 				left  : leftPos,
 				destinationTop : destinationTop - this.offset.top,
@@ -148,7 +155,36 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'models/word', 'm
 		},
 		'{currentPlayer} dead' : function(){
 			clearTimeout(this._addWordTimeout);
-		}
+		},
+
+        detectCollision: function() {
+        	var bullets = this.element.find('.bullet');
+        	var words = this.element.find('.word');
+
+        	if (!bullets.length) {
+        		return;
+        	}
+        	var bulletBoudingReact;
+        	var wordBoudingReact;
+
+        	var bullet;
+        	var word;
+
+        	for (var i = words.length - 1; i >= 0; i--) {
+        		wordBoudingReact = words[i].getBoundingClientRect();
+        		for (var j = bullets.length - 1; j >= 0; j--) {
+        			bulletBoudingReact = bullets[j].getBoundingClientRect();
+        			var overlap = !(wordBoudingReact.right < bulletBoudingReact.left ||
+		               wordBoudingReact.left > bulletBoudingReact.right ||
+		               wordBoudingReact.bottom < bulletBoudingReact.top ||
+		               wordBoudingReact.top > bulletBoudingReact.bottom);
+        			if (overlap) {
+        				$(words[i]).data('model').shot($(bullets[j]).data('model'));
+        				return;
+        			}
+        		};
+        	};
+        }
 	});
 
 })
