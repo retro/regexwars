@@ -1,25 +1,30 @@
 define(['can/util/string', 'can/model'], function(can){
 
+	var currentPlayer;
+
 	return can.Model({
 
 		findAll : 'GET /players',
 		findOne : 'GET /players/{id}',
 		create  : 'POST /players',
 		update  : 'PUT /players/{id}',
-		destroy : 'DELETE /players/{id}'
-		attributes {
-
+		destroy : 'DELETE /players/{id}',
+		current : function(){
+			if(!currentPlayer){
+				currentPlayer = new this;
+			}
+			return currentPlayer;
 		}
 	}, {
-		shoot : function(bullet){
-			bullet.attr({
-				trajectory : 25,
-				position : {
-					top : 0,
-					left : 0
-				},
-				isTraveling : true
-			})
+		init : function(){
+			this.attr('hp', 100);
+			this.attr('dead', false);
+		},
+		damage : function(word){
+			this.attr('hp', this.attr('hp') - word.damage());
+			if(this.attr('hp') <= 0){
+				this.attr('dead', true);
+			}
 		}
 	});
 

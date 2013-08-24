@@ -7,10 +7,21 @@
 		<div class="gradient gradient-5"></div>
 		<div class="gradient gradient-6"></div>
 	</div>
-	{{#each bullets}}
-		<div class="bullet" style="top: {{top}}px; left: {{left}}px; -webkit-transform:rotate({{bulletAngle}}deg); -webkit-transition: all {{animationTime}}s linear;" {{data 'model'}}>{{ regex }}</div>
-	{{/each}}
-	<div id="gun" style="-webkit-transform:rotate({{angle}}deg);"></div>
-	<div id="trajectory" style="-webkit-transform:rotate({{angle}}deg);"></div>
-	<div id="gun-base"></div>
+	{{#if player.dead}}
+		<h1 class="dead">You're dead!</h1>
+	{{else}}
+		<div>
+			{{#each words}}
+				<div class="word" {{data 'model'}}>{{{ preparedWord }}}</div>
+			{{/each}}
+			{{#each bullets}}
+				<div class="bullet" style="top: {{top}}px; left: {{left}}px; -webkit-transform:rotate({{bulletAngle}}deg); -webkit-transition: all {{animationTime}}s linear;" {{data 'model'}}>{{ regex }}</div>
+			{{/each}}
+			<div id="gun" style="-webkit-transform:rotate({{angle}}deg);"></div>
+			<div id="trajectory" style="-webkit-transform:rotate({{angle}}deg);"></div>
+			<div id="gun-base"></div>
+			<div class="hp"><div style='width: {{player.hp}}%; background: {{hpColor}}'></div></div>
+		</div>
+	{{/if}}
+	
 </div>

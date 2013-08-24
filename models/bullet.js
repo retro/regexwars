@@ -10,8 +10,6 @@ define(['can/util/string', 'can/model', 'can/construct/proxy'], function(can){
 
 	}, {
 		init: function() {
-			//izracun
-
 			window.setTimeout(this.proxy('setDestination'), 0);
 		},
 

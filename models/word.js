@@ -1,7 +1,7 @@
-define(['can/util/string', 'can/model', 'can/construct/super'], function(can){
+define(['can/util/string', 'can/model', 'can/construct/super', 'fixtures/words'], function(can){
 
 
-	var getKillerIndices(word){
+	var getKillerIndices = function(word){
 		var indices      = [],
 			length       = word.length,
 			isOpen       = false,
@@ -27,8 +27,12 @@ define(['can/util/string', 'can/model', 'can/construct/super'], function(can){
 		return indices;
 	}
 
+	var getRandomInRange = function(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 
-	return can.Model({
+
+	var Model = can.Model({
 
 		findAll : 'GET /words',
 		findOne : 'GET /words/{id}',
@@ -40,7 +44,7 @@ define(['can/util/string', 'can/model', 'can/construct/super'], function(can){
 			data.originalWord  = data.word;
 			data.killerIndices = getKillerIndices(data.word);
 			data.cleanWord     = data.word.replace(/\[|\]/gi, '');
-			data.preparedWord  = data.word.replace(/]/gi, '<b>').replace(/[/gi, '</b>');
+			data.preparedWord  = data.word.replace(/\]/gi, '<b>').replace(/\[/gi, '</b>');
 			return this._super.apply(this, arguments);
 		}
 	}, {
@@ -58,8 +62,17 @@ define(['can/util/string', 'can/model', 'can/construct/super'], function(can){
 			var length = this.attr('cleanWord').length,
 				damage = 1,
 				coefficient, aliveKillers;
-			return 0.5;
+			return 5;
 		}
 	});
+
+	Model.List = can.Model.List({
+		getNext : function(){
+			var index = getRandomInRange(0, this.length - 1);
+			return this.splice(index, 1);
+		}
+	})
+
+	return Model;
 
 })

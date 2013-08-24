@@ -1,4 +1,8 @@
-define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'less!./stage'], function(can, initView, BulletModel){
+define(['can/util/string', 'mustache!./init', 'models/bullet', 'models/word', 'models/player', 'can/control', 'less!./stage'], function(can, initView, BulletModel, WordModel, PlayerModel){
+
+	var getRandomInRange = function(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 
 	return can.Control({
 		defaults : {
@@ -7,6 +11,12 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 	},{
 		init : function(){
 			var self = this;
+
+			this.options.currentWords = new WordModel.List;
+			this.options.currentPlayer = PlayerModel.current();
+			this.on();
+
+			this.words = new WordModel.List;
 
 			this.areaHeight = can.compute(0);
 			this.areaWidth  = can.compute(0);
@@ -33,7 +43,23 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 
 			this.element.html(initView({
 				angle   : this.angle,
-				bullets : this.bullets
+				bullets : this.bullets,
+				words   : this.options.currentWords,
+				player  : this.options.currentPlayer,
+				hpColor : function(){
+					var hp = self.options.currentPlayer.attr('hp'),
+						color;
+					if(hp > 75){
+						color = 'green';
+					} else if (hp > 50){
+						color = 'yellow';
+					} else if (hp > 25){
+						color = 'orange';
+					} else {
+						color = 'red';
+					}
+					return color;
+				}
 			}));
 
 			this.$area       = this.element.find('#area');
@@ -44,6 +70,11 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 
 			this.areaWidth(this.$area.width());
 			this.areaHeight(this.$area.height());
+
+			WordModel.findAll({}, function(data){
+				self.words.replace(data);
+				self.addWord();
+			});
 		},
 		"#area mousemove" : function(el, ev){
 			var position = this.$gun.position()
@@ -89,6 +120,34 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 		".bullet msTransitionEnd"     : "removeBullet",
 		removeBullet : function(el, ev){
 			el.data('model').destroy();
+		},
+		addWord : function(){
+			var word = this.words.getNext()[0];
+			word && this.options.currentWords.push(word);
+			this._addWordTimeout = setTimeout(this.proxy('addWord'), 2000);
+		},
+		'{currentWords} add' : function(){
+			setTimeout(this.proxy(function(){
+				var $word = this.element.find('.word:last'),
+					width = $word.outerWidth(),
+					left  = getRandomInRange(5, this.areaWidth() - 5 - width);
+				$word.css({
+					left : left + 'px'
+				}).css('left');
+				$word.addClass('move-word');
+			}), 0)
+		},
+		".word webkitTransitionEnd" : "damagePlayer",
+		".word oTransitionEnd"      : "damagePlayer",
+		".word transitionend"       : "damagePlayer",
+		".word msTransitionEnd"     : "damagePlayer",
+		damagePlayer : function(el, ev){
+			var model = el.data('model');
+			this.options.currentPlayer.damage(model);
+			model.destroy();
+		},
+		'{currentPlayer} dead' : function(){
+			clearTimeout(this._addWordTimeout);
 		}
 	});
 
