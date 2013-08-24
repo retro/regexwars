@@ -22,11 +22,11 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 
 			this.angle = can.compute(function(){
 				var position   = self.mousePosition(),
-					center     = (self.areaWidth() / 2),
-					isPositive = position.x > center,
-					deltaY     = self.areaHeight() - position.y,
-					deltaX     = center - position.x,
-					angle      = -Math.atan(deltaX / deltaY) * 90;
+				center     = (self.areaWidth() / 2),
+				isPositive = position.x > center,
+				deltaY     = self.areaHeight() - position.y,
+				deltaX     = center - position.x,
+				angle      = -Math.atan(deltaX / deltaY) * 90;
 
 				return Math.min(Math.max(-67, angle), 67);
 			});
@@ -36,18 +36,18 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				bullets : this.bullets
 			}));
 
-			this.$area  = this.element.find('#area');
-			this.$gun   = this.element.find('#gun');
+			this.$area       = this.element.find('#area');
+			this.$gun        = this.element.find('#gun');
+			this.$trajectory = this.element.find('#trajectory');
 
 			this.offset = this.$area.offset();
 
 			this.areaWidth(this.$area.width());
 			this.areaHeight(this.$area.height());
-      var loopAnim = function() {
-        self.bullets.move();
-        window.requestAnimationFrame(loopAnim);
-      }
-			window.requestAnimationFrame(loopAnim);
+			var loopAnim = function() {
+				self.bullets.move();
+				window.requestAnimationFrame(loopAnim);
+			}
 		},
 		"#area mousemove" : function(el, ev){
 			var position = this.$gun.position()
@@ -62,6 +62,7 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 		"#area click" : function(){
 			var leftPos = this.bulletOrigin.x,
 				angle   = this.angle(),
+				destination = this.$trajectory[0].getBoundingClientRect();
 				boundingRect;
 
 			if(angle > 0){
@@ -69,12 +70,14 @@ define(['can/util/string', 'mustache!./init', 'models/bullet', 'can/control', 'l
 				leftPos = boundingRect.right - this.offset.left;
 			}
 
+			
+
 			this.bullets.push(new BulletModel({
 				regex : 'foo',
 				top   : this.bulletOrigin.y,
 				left  : leftPos,
-				angle : angle,
-				maxX  : this.areaWidth()
+				destinationTop : destination.top,
+				destinationLeft : destination.left
 			}))
 		},
 		"webkitTransitionEnd" : "removeBullet",
